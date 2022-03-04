@@ -1,5 +1,6 @@
 package Ejercicio5;
 
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Confeccion {
@@ -64,6 +65,49 @@ public class Confeccion {
     }
 
 
+    public static void comprarVestidos(Confeccion [] vestidos){
+        Scanner sc = new Scanner(System.in);
+
+        String respuesta="NO";
+        boolean noExiste=false;
+
+        for(Confeccion x : vestidos ){
+
+            System.out.println("El vestido con el código " + x.getCodVestido() + " cuesta " + x.getPrecio()+"€");
+            System.out.println();
+        }
+
+
+
+
+        while (noExiste==false || respuesta!="NO") {
+
+            System.out.println("Introduzca el código del vestido a comprar");
+            int compra= comprobarNumero(sc.nextInt());
+
+            for (int i = 0; i < vestidos.length; i++) {
+
+                if (vestidos[i].getCodVestido() == compra) {
+                    System.out.println("Introduzca la cantidad de vestidos que desea comprar");
+                    vestidos[i].setCantidad(sc.nextInt());
+                    vestidos[i].precioTotal=vestidos[i].precio*vestidos[i].cantidad;
+                    vestidos[i].cantidadTotal = vestidos[i].cantidadTotal + vestidos[i].cantidad;
+                    noExiste=true;
+
+                    System.out.println("El precio de la compra del vestido " + vestidos[i].getCodVestido() + " es: " +  vestidos[i].precioTotal);
+                }
+
+            }
+
+
+            System.out.println("¿Desea seguir comprando?");
+            respuesta=sc.nextLine().toUpperCase(Locale.ROOT);
+        }
+
+
+
+    }
+
 
 
 
@@ -81,5 +125,29 @@ public class Confeccion {
 
     public void setPrecio(double precio) {
         this.precio = precio;
+    }
+
+    public double getPrecioTotal() {
+        return precioTotal;
+    }
+
+    public void setPrecioTotal(double precioTotal) {
+        this.precioTotal = precioTotal;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public int getCantidadTotal() {
+        return cantidadTotal;
+    }
+
+    public void setCantidadTotal(int cantidadTotal) {
+        this.cantidadTotal = cantidadTotal;
     }
 }

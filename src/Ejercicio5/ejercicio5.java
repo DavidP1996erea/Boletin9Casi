@@ -6,12 +6,9 @@ public class ejercicio5 {
     public static void main(String[] args) {
 
 
+    comprarVestidos(crearArrayVestidos(2));
 
-        for(Confeccion x : crearArrayVestidos(2) ){
 
-            System.out.println(x.getCodVestido());
-            System.out.println(x.getPrecio());
-        }
 
 
     }
