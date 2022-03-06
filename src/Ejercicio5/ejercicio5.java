@@ -6,10 +6,7 @@ public class ejercicio5 {
     public static void main(String[] args) {
 
 
-    comprarVestidos(crearArrayVestidos(2));
-
-
-
+        comprarVestidos(crearArrayVestidos(5));
 
     }
 }

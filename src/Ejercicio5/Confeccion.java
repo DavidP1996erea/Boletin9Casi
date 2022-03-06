@@ -12,103 +12,129 @@ public class Confeccion {
     private int cantidadTotal;
 
 
-    public Confeccion(int codVestido){
+    public Confeccion(int codVestido) {
 
-        this.codVestido=codVestido;
-        this.precio=0;
-        this.precioTotal=0;
-        this.cantidad=0;
-        this.cantidadTotal=0;
+        this.codVestido = codVestido;
+        this.precio = 0;
+        this.precioTotal = 0;
+        this.cantidad = 0;
+        this.cantidadTotal = 0;
     }
 
-    public static int comprobarNumero(int codigo){
+    public static int comprobarNumero(int codigo) {
 
         Scanner sc = new Scanner(System.in);
 
         String codigoV;
-        int codigoValido=0;
-        boolean valido=false;
-        codigoV= String.valueOf(codigo);
+        int codigoValido = 0;
+        boolean valido = false;
+        codigoV = String.valueOf(codigo);
 
-        while (valido==false)
+        while (valido == false)
 
-        if(codigoV.length()==3){
-            codigoValido=Integer.valueOf(codigoV);
-            valido=true;
-        }else {
+            if (codigoV.length() == 3) {
+                codigoValido = Integer.valueOf(codigoV);
+                valido = true;
+            } else {
 
-            System.out.println("Código incorrecto, introduzca un número de 3 dígitos");
-            codigoV=String.valueOf(sc.nextInt());
-        }
+                System.out.println("Código incorrecto, introduzca un número de 3 dígitos");
+                codigoV = String.valueOf(sc.nextInt());
+            }
 
         return codigoValido;
     }
 
 
-    public static Confeccion [] crearArrayVestidos(int numeroVestidos){
+    public static Confeccion[] crearArrayVestidos(int numeroVestidos) {
         Scanner sc = new Scanner(System.in);
-        Confeccion [] vestidos=new Confeccion[numeroVestidos];
+        Confeccion[] vestidos = new Confeccion[numeroVestidos];
 
-        for(int i = 0; i<vestidos.length; i++){
+        for (int i = 0; i < vestidos.length; i++) {
 
             System.out.println("Introduzca el código de vestido " + i);
 
-            vestidos[i]=new Confeccion(comprobarNumero(sc.nextInt()));
+            vestidos[i] = new Confeccion(comprobarNumero(sc.nextInt()));
 
             System.out.println("Introduzca su precio");
-            vestidos[i].precio=sc.nextDouble();
+            vestidos[i].precio = sc.nextDouble();
 
         }
 
-        return vestidos;
+        return metodoBurbuja(vestidos);
 
     }
 
 
-    public static void comprarVestidos(Confeccion [] vestidos){
+    public static void ordenVenta(Confeccion[] vestidos) {
         Scanner sc = new Scanner(System.in);
 
-        String respuesta="NO";
-        boolean noExiste=false;
 
-        for(Confeccion x : vestidos ){
+        System.out.println("Introduzca el código del vestido a comprar");
+        int compra = comprobarNumero(sc.nextInt());
+        for (int i = 0; i < vestidos.length; i++) {
 
-            System.out.println("El vestido con el código " + x.getCodVestido() + " cuesta " + x.getPrecio()+"€");
+            if (vestidos[i].getCodVestido() == compra) {
+                System.out.println("Introduzca la cantidad de vestidos que desea comprar");
+                vestidos[i].setCantidad(sc.nextInt());
+                vestidos[i].precioTotal = vestidos[i].precio * vestidos[i].cantidad;
+                vestidos[i].cantidadTotal = vestidos[i].cantidadTotal + vestidos[i].cantidad;
+                System.out.println("El precio de la compra del vestido " + vestidos[i].getCodVestido() + " es: " + vestidos[i].precioTotal + "€");
+            }
+        }
+    }
+
+    public static void comprarVestidos(Confeccion[] vestidos) {
+        Scanner sc = new Scanner(System.in);
+
+        String respuesta;
+
+
+        for (Confeccion x : vestidos) {
+
+            System.out.println("El vestido con el código " + x.getCodVestido() + " cuesta " + x.getPrecio() + "€");
             System.out.println();
         }
 
+        System.out.println("¿Desea comprar algún vestido?");
+        respuesta = sc.nextLine();
 
+        while (respuesta.equals("NO") == false) {
 
+            ordenVenta(vestidos);
 
-        while (noExiste==false || respuesta!="NO") {
+            System.out.println("¿Tiene más fichas?");
+            respuesta = sc.nextLine().toUpperCase(Locale.ROOT);
 
-            System.out.println("Introduzca el código del vestido a comprar");
-            int compra= comprobarNumero(sc.nextInt());
-
-            for (int i = 0; i < vestidos.length; i++) {
-
-                if (vestidos[i].getCodVestido() == compra) {
-                    System.out.println("Introduzca la cantidad de vestidos que desea comprar");
-                    vestidos[i].setCantidad(sc.nextInt());
-                    vestidos[i].precioTotal=vestidos[i].precio*vestidos[i].cantidad;
-                    vestidos[i].cantidadTotal = vestidos[i].cantidadTotal + vestidos[i].cantidad;
-                    noExiste=true;
-
-                    System.out.println("El precio de la compra del vestido " + vestidos[i].getCodVestido() + " es: " +  vestidos[i].precioTotal);
-                }
-
-            }
-
-
-            System.out.println("¿Desea seguir comprando?");
-            respuesta=sc.nextLine().toUpperCase(Locale.ROOT);
         }
 
+        for (Confeccion x : vestidos) {
+            System.out.println("El vestido " + x.getCodVestido() + " con un precio de  " + x.getPrecio()
+                    + " fue comprado " + x.getCantidadTotal() +
+                    " con un total de " + x.getPrecioTotal() + "€");
+        }
+    }
+
+    public static Confeccion[] metodoBurbuja(Confeccion[] burbuja) {
+
+        Confeccion aux;
+
+        for (int i = 0; i < burbuja.length; i++) {
+            for (int j = i; j < burbuja.length; j++) {
+
+                if (burbuja[i].getCodVestido() > burbuja[j].getCodVestido()) {
+
+                    aux = burbuja[i];
+
+                    burbuja[i] = burbuja[j];
+                    burbuja[j] = aux;
+                }
+            }
+        }
+
+        return burbuja;
 
 
     }
-
-
 
 
     public int getCodVestido() {
